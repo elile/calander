@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_menu"
+        android:icon="@drawable/ic_action_storage"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_storage"/>
+
+</menu>

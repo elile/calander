@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calendar_btn_image_style"
+                android:contentDescription="@string/Calendar"
+                android:src="@drawable/ic_action_go_to_today" />
+
+            <Button
+                android:id="@+id/calendar_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calander_button_style"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/Calendar"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp" >
+
+            <ImageView
+                android:id="@+id/imageView_add_event"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calendar_btn_image_style"
+                android:contentDescription="@string/Calendar"
+                android:src="@drawable/ic_action_edit" />
+
+            <Button
+                android:id="@+id/add_event_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calander_button_style"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/Add_event"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp" >
+
+            <ImageView
+                android:id="@+id/imageView_select_calendar"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calendar_btn_image_style"
+                android:contentDescription="@string/Calendar"
+                android:src="@android:drawable/ic_menu_manage" />
+
+            <Button
+                android:id="@+id/select_calendar_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calander_button_style"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/select_calendar"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp" >
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calendar_btn_image_style"
+                android:contentDescription="@string/Calendar"
+                android:src="@drawable/ic_action_refresh" />
+
+            <Button
+                android:id="@+id/sync_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calander_button_style"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/Synchronization"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp" >
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calendar_btn_image_style"
+                android:contentDescription="@string/Calendar"
+                android:src="@drawable/ic_action_settings" />
+
+            <Button
+                android:id="@+id/setting_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calander_button_style"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/settings"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp" >
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calendar_btn_image_style"
+                android:contentDescription="@string/Calendar"
+                android:src="@drawable/ic_action_help" />
+
+            <Button
+                android:id="@+id/help_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/calander_button_style"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/HowToUse"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <AnalogClock
+            android:id="@+id/analogClock1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/calendar_btn_image_style" />
+
+        <DigitalClock
+            android:id="@+id/digitalClock1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/calendar_btn_image_style"
+            android:gravity="center"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="10"
+            android:shadowDy="5"
+            android:shadowRadius="5"
+            android:text=""
+            android:textColor="#1107A3"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/calendar_btn_image_style"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/mounthView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:gravity="center"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/Month"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:gravity="center"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/day"
+                android:textColor="#1107A3"
+                android:textSize="50sp" />
+
+            <TextView
+                android:id="@+id/yearView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:gravity="center"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="10"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:text="@string/year"
+                android:textColor="#1107A3"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

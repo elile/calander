@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="DisableBaselineAlignment">
+        <ignore path="res/layout/calendar.xml" />
+    </issue>
+    <issue id="HardcodedText">
+        <ignore path="res/layout/calendar.xml" />
+    </issue>
+    <issue id="NestedWeights">
+        <ignore path="res/layout/calendar.xml" />
+    </issue>
+    <issue id="TooManyViews">
+        <ignore path="res/layout/calendar.xml" />
+    </issue>
+</lint>

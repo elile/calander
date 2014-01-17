@@ -1,0 +1,748 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_r_l"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/gridwarper"
+            android:layout_width="1281dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/calendar_backround"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="7" >
+
+                <LinearLayout
+                    android:id="@+id/warper_b1"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b1"
+                        style="@style/day_button"
+                        
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b01" />
+
+                    <TextView
+                        android:id="@+id/day_b1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b2"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b2"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b02" />
+
+                    <TextView
+                        android:id="@+id/day_b2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b3"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b3"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b03" />
+
+                    <TextView
+                        android:id="@+id/day_b3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b4"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b4"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b04" />
+
+                    <TextView
+                        android:id="@+id/day_b4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b5"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b5"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b05" />
+
+                    <TextView
+                        android:id="@+id/day_b5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b6"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b6"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b06" />
+
+                    <TextView
+                        android:id="@+id/day_b6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b7"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b7"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b07" />
+
+                    <TextView
+                        android:id="@+id/day_b7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/left_center_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:weightSum="1" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.01"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/day28warper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right" >
+
+                        <LinearLayout
+                            android:id="@+id/warper_b28"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="left"
+                            android:background="@drawable/day_warper_border"
+                            android:orientation="vertical" >
+
+                            <ImageButton
+                                android:id="@+id/b28"
+                                style="@style/day_button"
+                                android:contentDescription="@string/desc"
+                                android:background="@drawable/b28" />
+
+                            <TextView
+                                android:id="@+id/day_b28"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/dayb_29_30_31"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:orientation="vertical" >
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b27"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b27"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b27" />
+
+                        <TextView
+                            android:id="@+id/day_b27"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b26"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b26"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b26" />
+
+                        <TextView
+                            android:id="@+id/day_b26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b25"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b25"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b25" />
+
+                        <TextView
+                            android:id="@+id/day_b25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b24"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b24"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b24" />
+
+                        <TextView
+                            android:id="@+id/day_b24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b23"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b23"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b23" />
+
+                        <TextView
+                            android:id="@+id/day_b23"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b22"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b22"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b22" />
+
+                        <TextView
+                            android:id="@+id/day_b22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/table_events"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.97"
+                    android:orientation="horizontal"
+                    android:weightSum="0.97" >
+
+                    <LinearLayout
+                        android:id="@+id/hours"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.05"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/hours2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="0.82"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/all_day_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:layout_weight="0.08"
+                        android:background="@drawable/event_stroke"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="All day events "
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.01"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/warper_b8"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b8"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b08" />
+
+                        <TextView
+                            android:id="@+id/day_b8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b9"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b9"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b09" />
+
+                        <TextView
+                            android:id="@+id/day_b9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b10"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b10"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b10" />
+
+                        <TextView
+                            android:id="@+id/day_b10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b11"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b11"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b11" />
+
+                        <TextView
+                            android:id="@+id/day_b11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b12"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b12"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b12" />
+
+                        <TextView
+                            android:id="@+id/day_b12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b13"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b13"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b13" />
+
+                        <TextView
+                            android:id="@+id/day_b13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/warper_b14"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/day_warper_border"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/b14"
+                            style="@style/day_button"
+                            android:contentDescription="@string/desc"
+                            android:background="@drawable/b14" />
+
+                        <TextView
+                            android:id="@+id/day_b14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp" >
+
+                <LinearLayout
+                    android:id="@+id/warper_b21"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b21"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b21" />
+
+                    <TextView
+                        android:id="@+id/day_b21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b20"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b20"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b20" />
+
+                    <TextView
+                        android:id="@+id/day_b20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b19"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical"
+                    tools:ignore="TooManyViews" >
+
+                    <ImageButton
+                        android:id="@+id/b19"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b19" />
+
+                    <TextView
+                        android:id="@+id/day_b19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b18"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b18"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b18" />
+
+                    <TextView
+                        android:id="@+id/day_b18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b17"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b17"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b17" />
+
+                    <TextView
+                        android:id="@+id/day_b17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b16"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b16"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b16" />
+
+                    <TextView
+                        android:id="@+id/day_b16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/warper_b15"
+                    style="@style/btn_day_warper"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/b15"
+                        style="@style/day_button"
+                        android:contentDescription="@string/desc"
+                        android:background="@drawable/b15" />
+
+                    <TextView
+                        android:id="@+id/day_b15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</HorizontalScrollView>

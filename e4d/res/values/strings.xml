@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">e4d</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="Calendar">Calendar</string>
+    <string name="HowToUse">How to use</string>
+    <string name="action_storage">Menu bar</string>
+    <string name="settings">Settings</string>
+    <string name="Synchronization">Synchronization</string>
+    <string name="Month">nov</string>
+    <string name="day">04</string>
+    <string name="year">2013</string>
+        <string name="desc">day button</string>
+        <string name="Add_event">Add event</string>
+        <string name="select_calendar">Select calendar</string>
+    
+
+</resources>
