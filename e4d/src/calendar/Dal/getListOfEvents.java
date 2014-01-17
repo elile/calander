@@ -19,18 +19,38 @@ import dateAndTime.utils.dayDate;
 public class getListOfEvents {
 
 	static Cursor cursor;
+	private static long startDayInMillis;
+	private static long endDayInMillis;
 	
+	public static long getStartDayInMillis() {
+		return startDayInMillis;
+	}
+
+	public static void setStartDayInMillis(long startDayInMillis) {
+		getListOfEvents.startDayInMillis = startDayInMillis;
+	}
+
+	public static long getEndDayInMillis() {
+		return endDayInMillis;
+	}
+
+	public static void setEndDayInMillis(long endDayInMillis) {
+		getListOfEvents.endDayInMillis = endDayInMillis;
+	}
+
 	// get only event of one day - this is for faster ui
 	public static LinkedList<MyEvent> readCalendar(Context context, String id, ContentResolver contentResolver, dayDate DayDate) 
 	{
+		startDayInMillis = getListOfEvents.getMillisToStartOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear())+60000;
+		endDayInMillis = getListOfEvents.getMillisToEndOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear());		
 		LinkedList<MyEvent> ret = new LinkedList<MyEvent>();
 		// For each calendar, display all the events from the previous week to the end of next week.        
 		// uri for events
 		Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
 
 		// events Between: day in past <->  day in futere
-		ContentUris.appendId(builder, getMillisToStartOfDay(DayDate.getDay(),DayDate.getMonth(),DayDate.getYear()));
-		ContentUris.appendId(builder, getMillisToEndOfDay(DayDate.getDay(),DayDate.getMonth(),DayDate.getYear()));
+		ContentUris.appendId(builder, startDayInMillis );
+		ContentUris.appendId(builder, endDayInMillis );
 
 		Cursor eventCursor = contentResolver.query(builder.build(),new String[]  { "title","description", "begin", "end", "allDay", "eventLocation" }, "calendar_id=" + id.split(";")[0], null, "startDay ASC, startMinute ASC");
 		if(eventCursor.getCount()>0)

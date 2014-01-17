@@ -139,7 +139,7 @@ public class CalendarFrame extends Fragment implements OnClickListener
 
 		if (events.size()>0) {
 			// dinamic gui add time line
-			DayTimeLineBuilder.buildViewDayTimeLine(getActivity(), events,hours2, dayDateP, cal);
+			DayTimeLineBuilder.buildViewDayTimeLine(getActivity(), events, hours2, dayDateP, cal);
 		}else {
 			TextView t2 = new TextView(getActivity());
 			t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, 1440));

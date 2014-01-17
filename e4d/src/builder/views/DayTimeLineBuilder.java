@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -28,20 +27,20 @@ public class DayTimeLineBuilder
 
 	public static void buildViewDayTimeLine(Activity a, LinkedList<MyEvent> events, LinearLayout hours2, dayDate day, View cal) 
 	{
+		// for every min in day - this give me most Accuracy 
 		hours2.setWeightSum(1440);
 
-		startDayInMillis = getListOfEvents.getMillisToStartOfDay(day.getDay(), day.getMonth(), day.getYear())+60000;
-		endDayInMillis = getListOfEvents.getMillisToEndOfDay(day.getDay(), day.getMonth(), day.getYear());
+		startDayInMillis = getListOfEvents.getStartDayInMillis();
+		endDayInMillis = getListOfEvents.getEndDayInMillis();
 
-		// for each event i calc min in day;
+		// for each event i calc normalized minute in day 
 		for (MyEvent e : events)
 		{
 			e.setStartNormal(convertMillisToMinInDay(e.getBegin())+1);
 			e.setEndNormal(convertMillisToMinInDay(e.getEnd()));
-			//Log.e("eli", "s:"+e.getBegin()+" e:"+e.getEnd());
 		}
-
 		LinkedList<MyEvent> events_new = new LinkedList<MyEvent>();
+		// all day events are draw in another place and need to remove
 		for (MyEvent e : events) {
 			if (e.isAllDay())
 			{
@@ -51,11 +50,9 @@ public class DayTimeLineBuilder
 							.findViewById(R.id.all_day_layout);
 					TextView t6 = new TextView(a);
 					t6.setTextAppearance(a, android.R.style.TextAppearance_DeviceDefault_Medium);
-					//t6.setMaxTextSize(100);
 					t6.setBackgroundColor(e.getColor() - 50);
 					t6.setText(e.toString());
-					//t6.setEllipsize(TruncateAt.END);
-					//t6.setSingleLine(false);
+					// add lisitner is here
 					allDayEvent.addView(t6);
 				}
 			}else {
@@ -93,25 +90,24 @@ public class DayTimeLineBuilder
 		t2.setBackgroundColor(Color.LTGRAY);
 		hours2.addView(t2);
 
-		// paint function
+		// the paint function
 		for (MyEvent e : events_new) 
 		{
-
 			TextView t4 = new TextView(a);
 			t4.setTextAppearance(a, android.R.style.TextAppearance_DeviceDefault_Medium);
-			
 			if ((e.getEndNormal() - e.getStartNormal()) > 10)
 			{
-
 				t4.setLayoutParams(new LayoutParams(
 						LayoutParams.MATCH_PARENT, 0, e.getEndNormal()
 						- e.getStartNormal()));
 			} else {
+				// 10 is the minimum weight
 				t4.setLayoutParams(new LayoutParams(
 						LayoutParams.MATCH_PARENT, 0, 10));
 			}
 			t4.setBackgroundColor(e.getColor());
 			t4.setText(e.toString());
+			// add lisitner to t4 - here
 			hours2.addView(t4);
 			if (e != events_new.getLast())
 			{
@@ -131,14 +127,10 @@ public class DayTimeLineBuilder
 				hours2.addView(t5);
 			}
 		}
-
-
-
 	}
 
 	private static int convertMillisToMinInDay(long millis) 
 	{
-
 		if (millis == startDayInMillis) {
 			return 0;
 		}else if (millis == endDayInMillis) {
