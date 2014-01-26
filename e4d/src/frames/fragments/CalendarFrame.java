@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.SharedPreferences;
@@ -31,6 +32,7 @@ import builder.views.CustomSpinner;
 import builder.views.DayTimeLineBuilder;
 import calendar.Dal.getListOfEvents;
 
+import com.example.e4d.MainActivity;
 import com.example.e4d.SingleTouchEventView;
 import com.example.e4d6.R;
 
@@ -53,6 +55,16 @@ public class CalendarFrame extends Fragment implements OnClickListener
 	private String year ;
 	private String day ;
 	private int daysInMonth;
+	private MainActivity mainAc;
+
+	
+	@Override
+    public void onAttach(Activity activity) 
+	{
+        super.onAttach(activity);
+		mainAc = (MainActivity)activity;
+	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +75,8 @@ public class CalendarFrame extends Fragment implements OnClickListener
 		month = getArguments().getString("month");
 		year = getArguments().getString("year");
 		day = getArguments().getString("day");
+		
+		mainAc.setTextDay(day);
 
 		daysInMonth = getTimeThings.getDaysInMonth(month,year);		
 
@@ -79,7 +93,7 @@ public class CalendarFrame extends Fragment implements OnClickListener
 		initButtonsDay();
 
 		// write the name of day in the correct date
-		writeDays(getTimeThings.getDay());
+		writeDays(Integer.parseInt(day));
 
 		// write the middele time line of the events
 		writeEventsField(new dayDate(day, month, year));
@@ -199,7 +213,7 @@ public class CalendarFrame extends Fragment implements OnClickListener
 	private void writeDays(int yellow) 
 	{
 		// the yellow day is today
-		for (int i = 1; i < daysInMonth; i++) 
+		for (int i = 1; i < daysInMonth+1; i++) 
 		{
 			String dayName = getTimeThings.getDayNameByDate(i + "", month, year);
 			if (i <= DAYS)
@@ -265,9 +279,9 @@ public class CalendarFrame extends Fragment implements OnClickListener
 				break;
 			}
 		numOfDayInMon=i;
+		mainAc.setTextDay(numOfDayInMon+"");
 		writeDays(numOfDayInMon);
 		writeEventsField(new dayDate(numOfDayInMon+"", month, year));
-
 
 	}
 
@@ -285,6 +299,9 @@ public class CalendarFrame extends Fragment implements OnClickListener
 		mLayout2.addView(s); 
 		return mLayout2;
 	}
+
+
+
 
 
 }

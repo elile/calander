@@ -1,5 +1,7 @@
 package com.example.e4d;
 
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import builder.views.menuBuilder;
@@ -33,15 +36,18 @@ import com.example.e4d6.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import dateAndTime.utils.getTimeThings;
-
 import frames.fragments.CalendarFrame;
 import frames.fragments.HowToUseFrame;
+import frames.fragments.changeDayCallBack;
 
-public class MainActivity extends Activity implements OnClickListener
+public class MainActivity extends Activity implements OnClickListener,changeDayCallBack
 {
 	private SlidingMenu menu;
 	private boolean Toshow=false;
 	private Dialog dialog ;
+	private TextView monthTextview;
+	private TextView yearTextview;
+	private TextView dayTextview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -68,33 +74,19 @@ public class MainActivity extends Activity implements OnClickListener
 			editor.putString("cal_id", ids.get(0)) ;
 			editor.commit() ;
 		}
-
-		inflateToday();
-
 		// build slide menu
 		menu = menuBuilder.buildMenu(getApplicationContext(), this, R.layout.menu_frame);
-
+		monthTextview = (TextView) menu.getMenu().findViewById(R.id.mounthView);
+		yearTextview = (TextView) menu.getMenu().findViewById(R.id.yearView);
+		dayTextview = (TextView) menu.getMenu().findViewById(R.id.dayView);
 		// init onClick in the menu
 		initOnClick();
-
-		// paint to slide menu
+		// current date to the slide menu
 		setLeftUpdateDate();
 
+		inflateToday();
 		menu.showMenu();
 
-	}
-
-	private void inflateToday() {
-		// inflate fragment with now date
-		Bundle bundle = new Bundle();
-		bundle.putString("month", getTimeThings.getMonth());
-		bundle.putString("year", getTimeThings.getYear());
-		bundle.putString("day", getTimeThings.getDay()+"");
-
-		// set Fragmentclass Arguments
-		CalendarFrame calendarFrame = new CalendarFrame();
-		calendarFrame.setArguments(bundle);
-		getFragmentManager().beginTransaction().replace(R.id.elementContainer, calendarFrame).commit();
 	}
 
 	private void initDialog(final LinkedList<String> ids) 
@@ -135,6 +127,15 @@ public class MainActivity extends Activity implements OnClickListener
 		Button add_event = (Button) vm.findViewById(R.id.add_event_btn);
 		Button select_calendar = (Button) vm.findViewById(R.id.select_calendar_btn);
 
+		ImageButton add_mon = (ImageButton) vm.findViewById(R.id.add_month);
+		ImageButton sub_mon = (ImageButton) vm.findViewById(R.id.sub_month);
+		ImageButton add_year = (ImageButton) vm.findViewById(R.id.add_year);
+		ImageButton sub_year = (ImageButton) vm.findViewById(R.id.sub_year);
+
+		add_mon.setOnClickListener(this) ;
+		sub_mon.setOnClickListener(this) ;
+		add_year.setOnClickListener(this) ;
+		sub_year.setOnClickListener(this) ;
 
 		calendar.setOnClickListener(this) ;
 		useing.setOnClickListener(this) ;
@@ -146,7 +147,7 @@ public class MainActivity extends Activity implements OnClickListener
 
 	}
 
-	
+
 	@SuppressLint("SimpleDateFormat")
 	private void setLeftUpdateDate() 
 	{
@@ -158,10 +159,9 @@ public class MainActivity extends Activity implements OnClickListener
 		SimpleDateFormat yeardf = new SimpleDateFormat("yyyy");
 		String year = yeardf.format(c.getTime());
 
-		View v= menu.getMenu();
-		((TextView) v.findViewById(R.id.dayView)).setText(day);
-		((TextView) v.findViewById(R.id.mounthView)).setText(mon);
-		((TextView) v.findViewById(R.id.yearView)).setText(year);
+		dayTextview.setText(day);
+		monthTextview.setText(mon);
+		yearTextview.setText(year);
 	}
 
 
@@ -222,24 +222,139 @@ public class MainActivity extends Activity implements OnClickListener
 		case R.id.help_btn :
 			getFragmentManager().beginTransaction().replace(R.id.elementContainer, new HowToUseFrame()).commit();
 			break;
-
 		case R.id.setting_btn :
 			break;
-
 		case R.id.sync_btn :
 			inflateToday();
 			break;
-
 		case R.id.add_event_btn:
 			open_intent_insert_event() ;
 			break;
-
 		case R.id.select_calendar_btn:
 			dialog.show();
-
+			break;
+		case R.id.add_month:
+			dayTextview.setText("01");
+			add_mon();
+			break;
+		case R.id.sub_month:
+			dayTextview.setText("01");
+			sub_mon();
+			break;
+		case R.id.add_year:
+			dayTextview.setText("01");
+			add_year();
+			break;
+		case R.id.sub_year:
+			dayTextview.setText("01");
+			sub_year();
 			break;
 
 		}
+	}
+
+	private void sub_year() 
+	{
+		int y = Integer.parseInt(yearTextview.getText().toString());
+		if (y > 1999)
+		{
+			y--;
+			yearTextview.setText(y+"");
+			update_main_frame();
+		}
+	}
+
+	private void add_year() 
+	{
+		int y = Integer.parseInt(yearTextview.getText().toString());
+		if (y < 2035)
+		{
+			y++;
+			yearTextview.setText(y+"");
+			update_main_frame();
+		}
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	private void sub_mon() 
+	{
+		Calendar cal = Calendar.getInstance();
+		try {
+			cal.setTime(new SimpleDateFormat("MMM").parse(monthTextview.getText().toString()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int m = cal.get(Calendar.MONTH) + 1;
+		if (m > 1)
+		{
+			m--;
+			monthTextview.setText(new DateFormatSymbols().getMonths()[m-1]);
+			update_main_frame();
+		}
+		else if (m == 1) 
+		{
+			monthTextview.setText(new DateFormatSymbols().getMonths()[11]);
+			update_main_frame();
+		}
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	private void add_mon() 
+	{
+		Calendar cal = Calendar.getInstance();
+		try {
+			cal.setTime(new SimpleDateFormat("MMM").parse(monthTextview.getText().toString()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int m = cal.get(Calendar.MONTH) + 1;
+		if (m < 12)
+		{
+			m++;
+			monthTextview.setText(new DateFormatSymbols().getMonths()[m-1]);
+			update_main_frame();
+		}
+		else if (m == 12) 
+		{
+			monthTextview.setText(new DateFormatSymbols().getMonths()[0]);
+			update_main_frame();
+		}
+	}
+
+	private void update_main_frame() 
+	{
+		inflateDay(	getTimeThings.getMonth(monthTextview.getText().toString()),
+				yearTextview.getText().toString(), dayTextview.getText().toString());
+	}
+
+	private void inflateToday() 
+	{
+		setLeftUpdateDate();
+
+		// inflate fragment with now date
+		Bundle bundle = new Bundle();
+		bundle.putString("month", getTimeThings.getMonth());
+		bundle.putString("year", getTimeThings.getYear());
+		bundle.putString("day", getTimeThings.getDay()+"");
+
+		// set Fragmentclass Arguments
+		CalendarFrame calendarFrame = new CalendarFrame();
+		calendarFrame.setArguments(bundle);
+		getFragmentManager().beginTransaction().replace(R.id.elementContainer, calendarFrame).commit();
+	}
+
+	private void inflateDay(String mon,String year, String d) 
+	{
+		// inflate fragment with now date
+		Bundle bundle = new Bundle();
+		bundle.putString("month", mon);
+		bundle.putString("year", year);
+		bundle.putString("day", Integer.parseInt(d)+"");
+
+		// set Fragmentclass Arguments
+		CalendarFrame calendarFrame = new CalendarFrame();
+		calendarFrame.setArguments(bundle);
+		getFragmentManager().beginTransaction().replace(R.id.elementContainer, calendarFrame).commit();
 	}
 
 	private void open_intent_insert_event() 
@@ -251,12 +366,20 @@ public class MainActivity extends Activity implements OnClickListener
 		calIntent.putExtra(Events.DESCRIPTION, "");
 		startActivityForResult(calIntent, 0);
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		inflateToday();
 	}
 
-
+	public void setTextDay(String day)
+	{
+		int d = Integer.parseInt(day);
+		if(d<10){
+			dayTextview.setText("0"+day);
+		}else{
+			dayTextview.setText(day);
+		}
+	}
 
 
 

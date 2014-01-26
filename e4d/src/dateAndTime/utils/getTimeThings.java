@@ -21,6 +21,19 @@ public class getTimeThings
 		return mon;		
 	}
 
+	public static String getMonth(String month)
+	{
+		Calendar cal = Calendar.getInstance();
+		try {
+			cal.setTime(new SimpleDateFormat("MMM").parse(month));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}	
+		SimpleDateFormat mondf = new SimpleDateFormat("MM");
+		String mon = mondf.format(cal.getTime());
+		return mon;		
+	}
+
 	public static String getYear() 
 	{
 		Calendar c = Calendar.getInstance();
@@ -70,7 +83,7 @@ public class getTimeThings
 		String day = daydf.format(c.getTime());
 		return  Integer.parseInt(day);
 	}
-	
+
 	public static String getDayNumber(long milliSeconds)
 	{
 		return getDate(milliSeconds, "dd-MM-yyyy").split("-")[0];

@@ -190,8 +190,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int table_row_hour_border=0x7f020031;
     }
     public static final class id {
-        public static final int action_menu=0x7f050084;
+        public static final int action_menu=0x7f05008a;
         public static final int add_event_btn=0x7f050075;
+        public static final int add_month=0x7f050084;
+        public static final int add_year=0x7f050088;
         public static final int all_day_layout=0x7f05003b;
         public static final int analogClock1=0x7f05007e;
         public static final int b1=0x7f05000c;
@@ -225,7 +227,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int button1=0x7f050068;
         public static final int calendar_btn=0x7f050073;
         public static final int day28warper=0x7f050021;
-        public static final int dayView=0x7f050081;
+        public static final int dayView=0x7f050080;
         public static final int day_b1=0x7f05000d;
         public static final int day_b10=0x7f050045;
         public static final int day_b11=0x7f050048;
@@ -276,7 +278,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int linearLayout1=0x7f05000a;
         public static final int mainview=0x7f050005;
         public static final int margin=0x7f050002;
-        public static final int mounthView=0x7f050080;
+        public static final int mon_contener=0x7f050081;
+        public static final int mounthView=0x7f050083;
         public static final int right=0x7f050001;
         public static final int scroll=0x7f050072;
         public static final int scrollView2=0x7f050008;
@@ -284,8 +287,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int select_calendar_btn=0x7f050077;
         public static final int selected_view=0x7f050004;
         public static final int setting_btn=0x7f05007b;
-        public static final int slidingmenumain=0x7f050083;
+        public static final int slidingmenumain=0x7f050089;
         public static final int spinner_ids=0x7f050067;
+        public static final int sub_month=0x7f050082;
+        public static final int sub_year=0x7f050086;
         public static final int sync_btn=0x7f050079;
         public static final int table_events=0x7f050038;
         public static final int textView1=0x7f05003c;
@@ -322,7 +327,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int warper_b7=0x7f05001d;
         public static final int warper_b8=0x7f05003d;
         public static final int warper_b9=0x7f050040;
-        public static final int yearView=0x7f050082;
+        public static final int yearView=0x7f050087;
+        public static final int year_contener=0x7f050085;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
