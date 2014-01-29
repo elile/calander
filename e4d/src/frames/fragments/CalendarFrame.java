@@ -24,16 +24,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import builder.views.CustomSpinner;
 import builder.views.DayTimeLineBuilder;
+import builder.views.initPopUp;
+import calendar.Dal.MyDbDal;
 import calendar.Dal.getListOfEvents;
 
 import com.example.e4d.MainActivity;
-import com.example.e4d.SingleTouchEventView;
 import com.example.e4d6.R;
 
 import dateAndTime.utils.MyEvent;
@@ -56,12 +56,14 @@ public class CalendarFrame extends Fragment implements OnClickListener
 	private String day ;
 	private int daysInMonth;
 	private MainActivity mainAc;
+	private static long hour_in_millis = 3600000;
 
-	
+
+
 	@Override
-    public void onAttach(Activity activity) 
+	public void onAttach(Activity activity) 
 	{
-        super.onAttach(activity);
+		super.onAttach(activity);
 		mainAc = (MainActivity)activity;
 	}
 
@@ -75,7 +77,7 @@ public class CalendarFrame extends Fragment implements OnClickListener
 		month = getArguments().getString("month");
 		year = getArguments().getString("year");
 		day = getArguments().getString("day");
-		
+
 		mainAc.setTextDay(day);
 
 		daysInMonth = getTimeThings.getDaysInMonth(month,year);		
@@ -105,6 +107,20 @@ public class CalendarFrame extends Fragment implements OnClickListener
 
 	private void writeEventsField(dayDate dayDateP)
 	{
+		initPopUp.setDay(dayDateP);
+		final dayDate d = dayDateP;
+		// if all day field pressed make popup to insert event
+		LinearLayout allDayEvent = (LinearLayout) cal.findViewById(R.id.all_day_layout);
+		allDayEvent.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				initPopUp.setView(v);
+				initPopUp.setEventToUpdate(new MyEvent("", getTimeThings.getMillisToStartOfDay(d.getDay(), d.getMonth(), d.getYear()), getTimeThings.getMillisToEndOfDay(d.getDay(), d.getMonth(), d.getYear()), true, "", "", -7090966));
+				v.setBackgroundColor(Color.rgb(135,206,250));
+				initPopUp.getQuickActionForEmpty().show(v);							
+			}
+		});
+
 		LinearLayout hour = (LinearLayout)cal.findViewById(R.id.hours);
 		// the holder of day time line
 		hours2 = (LinearLayout)cal.findViewById(R.id.hours2);
@@ -149,22 +165,52 @@ public class CalendarFrame extends Fragment implements OnClickListener
 		}
 
 		ContentResolver contentResolver = getActivity().getApplicationContext().getContentResolver();
-		LinkedList<MyEvent> events = getListOfEvents.readCalendar(getActivity(), id , contentResolver, dayDateP);
+		LinkedList<MyEvent> GoogleCalEvents = getListOfEvents.readCalendar(getActivity(), id , contentResolver, dayDateP);
+		MyDbDal myDb = new MyDbDal(getActivity());
+		LinkedList<MyEvent> localEvents = myDb.getEventsByDate(dayDateP);
+		LinkedList<MyEvent> events = concatLists(GoogleCalEvents, localEvents);
 
 		if (events.size()>0) {
 			// dinamic gui add time line
 			DayTimeLineBuilder.buildViewDayTimeLine(getActivity(), events, hours2, dayDateP, cal);
 		}else {
-			TextView t2 = new TextView(getActivity());
-			t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, 1440));
-			t2.setBackgroundColor(Color.LTGRAY);
-			hours2.addView(t2);
+
+			for (int i = 0; i < 24; i++) 
+			{
+				final long j = getTimeThings.getMillisToStartOfDay(d.getDay(), d.getMonth(), d.getYear())+i*hour_in_millis;
+				TextView t2 = new TextView(getActivity());
+				t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, 60));
+				t2.setBackgroundColor(Color.LTGRAY);
+				t2.setOnClickListener(new View.OnClickListener() 
+				{
+					@Override
+					public void onClick(View v) 
+					{
+						initPopUp.setView(v);
+						v.setBackgroundColor(Color.rgb(135,206,250));
+						initPopUp.setEventToUpdate(new MyEvent("", j, j+hour_in_millis, false, "", "", -7090966));
+						initPopUp.getQuickActionForEmpty().show(v);
+					}
+				});
+				hours2.addView(t2);
+			}
 		}
 
 
 
 	}
 
+
+
+	private LinkedList<MyEvent> concatLists(LinkedList<MyEvent> l1, LinkedList<MyEvent> l2) 
+	{
+		LinkedList<MyEvent> ret = new LinkedList<MyEvent>();
+		for (MyEvent e : l1) 
+			ret.add(e);
+		for (MyEvent e : l2) 
+			ret.add(e);
+		return ret;
+	}
 
 
 	private void initSpinner(int dayExtra) 
@@ -291,14 +337,6 @@ public class CalendarFrame extends Fragment implements OnClickListener
 		return cal.getResources().getIdentifier(id, "id", PACKEGENAME );
 	}
 
-	//add this to the RelativeLayout for painting on it if needed
-	public RelativeLayout bAddView(RelativeLayout mLayout2)
-	{
-		SingleTouchEventView s = new SingleTouchEventView(getActivity(), null);            
-		s.setBackgroundColor(Color.TRANSPARENT);            
-		mLayout2.addView(s); 
-		return mLayout2;
-	}
 
 
 

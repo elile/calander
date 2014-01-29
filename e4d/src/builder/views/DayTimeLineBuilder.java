@@ -21,15 +21,20 @@ import dateAndTime.utils.getTimeThings;
 
 public class DayTimeLineBuilder 
 {
+	static Activity a;
 
 	private static long startDayInMillis;
 	private static long endDayInMillis;
+	private static long hour_in_millis = 3600000;
+	private static long min_in_millis = 60000;
 
-	public static void buildViewDayTimeLine(Activity a, LinkedList<MyEvent> events, LinearLayout hours2, dayDate day, View cal) 
+	public static void buildViewDayTimeLine(Activity ac, LinkedList<MyEvent> events, LinearLayout hours2, dayDate day, View cal) 
 	{
+		a = ac ;
+		LinearLayout allDayEvent = (LinearLayout) cal.findViewById(R.id.all_day_layout);
+
 		// for every min in day - this give me most Accuracy 
 		hours2.setWeightSum(1440);
-
 		startDayInMillis = getListOfEvents.getStartDayInMillis();
 		endDayInMillis = getListOfEvents.getEndDayInMillis();
 
@@ -41,18 +46,26 @@ public class DayTimeLineBuilder
 		}
 		LinkedList<MyEvent> events_new = new LinkedList<MyEvent>();
 		// all day events are draw in another place and need to remove
-		for (MyEvent e : events) {
+		for (final MyEvent e : events)
+		{
 			if (e.isAllDay())
 			{
-				if (  getTimeThings.getDate(e.getBegin(),"dd-MM-yyyy").equals(getTimeThings.getDate(startDayInMillis,"dd-MM-yyyy"))  ) 
+				if (getTimeThings.getDate(e.getBegin(),"dd-MM-yyyy").equals(getTimeThings.getDate(startDayInMillis,"dd-MM-yyyy")) ) 
 				{
-					LinearLayout allDayEvent = (LinearLayout) cal
-							.findViewById(R.id.all_day_layout);
+					// all day event
 					TextView t6 = new TextView(a);
 					t6.setTextAppearance(a, android.R.style.TextAppearance_DeviceDefault_Medium);
-					t6.setBackgroundColor(e.getColor() - 50);
+					t6.setBackgroundColor(e.getColor());
 					t6.setText(e.toString());
 					// add lisitner is here
+					// for event
+					t6.setOnClickListener(new View.OnClickListener() 
+					{
+						@Override
+						public void onClick(View v) {
+							eventOnClick(e, v);							
+						}
+					});
 					allDayEvent.addView(t6);
 				}
 			}else {
@@ -62,10 +75,19 @@ public class DayTimeLineBuilder
 		}
 
 		if (events_new.size() == 0) {
-			TextView t2 = new TextView(a);
-			t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, 1440));
-			t2.setBackgroundColor(Color.LTGRAY);
-			hours2.addView(t2);
+			for (int i = 0; i < 24; i++) {
+				final int j = i;
+				TextView t2 = new TextView(a);
+				t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, 60));
+				t2.setBackgroundColor(Color.LTGRAY);
+				t2.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						mainAreaOnClick(new MyEvent("", startDayInMillis+hour_in_millis*j, startDayInMillis+hour_in_millis*j+hour_in_millis, true, "", "", -7090966), v);
+					}
+				});
+				hours2.addView(t2);
+			}
 			return;
 		}
 
@@ -84,50 +106,203 @@ public class DayTimeLineBuilder
 			}
 		});
 
-
-		TextView t2 = new TextView(a);
-		t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, events_new.getFirst().getStartNormal()));
-		t2.setBackgroundColor(Color.LTGRAY);
-		hours2.addView(t2);
+		int firstTime = events_new.getFirst().getStartNormal();
+		final long emptyEndInMill = events_new.getFirst().getBegin();
+		final long hourBeforeEmptyEnd = startDayInMillis + (((int) (firstTime / 60) - 1)*hour_in_millis) ;
+		final long endOfEmptyBeforeHour = startDayInMillis + (events_new.getFirst().getStartNormal()%60+60) * min_in_millis;
+		// until the first event
+		if (firstTime > 60) 
+		{
+			for (int i = 0; i < (int) (firstTime / 60) - 1; i++) 
+			{
+				final int j = i;
+				TextView t2 = new TextView(a);
+				t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, 60));
+				t2.setBackgroundColor(Color.LTGRAY);
+				t2.setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View v) 
+					{
+						mainAreaOnClick(new MyEvent("", startDayInMillis+hour_in_millis*j, startDayInMillis+hour_in_millis*j+hour_in_millis, false, "", "", -7090966), v);					
+					}
+				});
+				hours2.addView(t2);
+			}
+			TextView t2 = new TextView(a);
+			t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, (events_new.getFirst().getStartNormal())%60+60));
+			t2.setBackgroundColor(Color.LTGRAY);
+			t2.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					mainAreaOnClick(new MyEvent("", hourBeforeEmptyEnd, emptyEndInMill, false, "", "", -7090966), v);						
+				}
+			});
+			hours2.addView(t2);
+		}else {
+			TextView t2 = new TextView(a);
+			t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, events_new.getFirst().getStartNormal()));
+			t2.setBackgroundColor(Color.LTGRAY);
+			t2.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					mainAreaOnClick(new MyEvent("", startDayInMillis, endOfEmptyBeforeHour, false, "", "", -7090966), v);						
+				}
+			});
+			hours2.addView(t2);
+		}
 
 		// the paint function
-		for (MyEvent e : events_new) 
+		for (final MyEvent e : events_new) 
 		{
+			int eventInterval = e.getEndNormal()- e.getStartNormal() ;
 			TextView t4 = new TextView(a);
 			t4.setTextAppearance(a, android.R.style.TextAppearance_DeviceDefault_Medium);
 			if ((e.getEndNormal() - e.getStartNormal()) > 10)
 			{
-				t4.setLayoutParams(new LayoutParams(
-						LayoutParams.MATCH_PARENT, 0, e.getEndNormal()
-						- e.getStartNormal()));
+				t4.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, eventInterval));
 			} else {
 				// 10 is the minimum weight
-				t4.setLayoutParams(new LayoutParams(
-						LayoutParams.MATCH_PARENT, 0, 10));
+				t4.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, 10));
 			}
 			t4.setBackgroundColor(e.getColor());
 			t4.setText(e.toString());
 			// add lisitner to t4 - here
+			// for event
+			t4.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					eventOnClick(e, v);
+				}
+			});
 			hours2.addView(t4);
 			if (e != events_new.getLast())
 			{
-				TextView t5 = new TextView(a);
-				t5.setLayoutParams(new LayoutParams(
-						LayoutParams.MATCH_PARENT, 0, events_new.get(
-								events_new.indexOf(e) + 1).getStartNormal()
-								- e.getEndNormal()));
-				t5.setBackgroundColor(Color.LTGRAY);
-				hours2.addView(t5);
+				int interval = events_new.get(events_new.indexOf(e) + 1).getStartNormal()- e.getEndNormal();
+				final long startEmptyAdd = e.getEnd();
+				final long endEmptyAdd = events_new.get(events_new.indexOf(e) + 1).getBegin();
+				final long endOfEmptyBtween = endEmptyAdd-((interval%60+60)*min_in_millis) ;
+
+				if (interval < 60)
+				{
+					TextView t5 = new TextView(a);
+					t5.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, interval));
+					t5.setBackgroundColor(Color.LTGRAY);
+					t5.setOnClickListener(new View.OnClickListener() 
+					{
+						@Override
+						public void onClick(View v) 
+						{
+							mainAreaOnClick(new MyEvent("", startEmptyAdd, endEmptyAdd, false, "", "", -7090966), v);
+						}
+					});
+					hours2.addView(t5);
+				}else {
+					final long from = e.getEnd();
+					for (int i = 0; i < (int) (interval / 60) - 1; i++) 
+					{
+						final long j = from + i*hour_in_millis;
+						TextView t5 = new TextView(a);
+						t5.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, 60));
+						t5.setBackgroundColor(Color.LTGRAY);
+						t5.setOnClickListener(new View.OnClickListener() 
+						{
+							@Override
+							public void onClick(View v) 
+							{
+								mainAreaOnClick(new MyEvent("", j, j+hour_in_millis, false, "", "", -7090966), v);
+							}
+						});
+						hours2.addView(t5);
+					}
+					TextView t5 = new TextView(a);
+					t5.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, interval%60+60));
+					t5.setBackgroundColor(Color.LTGRAY);
+					t5.setOnClickListener(new View.OnClickListener() 
+					{
+						@Override
+						public void onClick(View v) 
+						{
+							mainAreaOnClick(new MyEvent("",endOfEmptyBtween , endEmptyAdd, false, "", "", -7090966), v);
+						}
+					});
+					hours2.addView(t5);
+				}
 			} else {
-				TextView t5 = new TextView(a);
-				t5.setLayoutParams(new LayoutParams(
-						LayoutParams.MATCH_PARENT, 0, 1440 - e
-						.getEndNormal()));
-				t5.setBackgroundColor(Color.LTGRAY);
-				hours2.addView(t5);
+				// event e was the last
+				int lastInterval = 1440 - e.getEndNormal() ;
+				if (lastInterval < 60)
+				{
+					TextView t5 = new TextView(a);
+					t5.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, lastInterval));
+					t5.setBackgroundColor(Color.LTGRAY);
+					t5.setOnClickListener(new View.OnClickListener()
+					{
+						@Override
+						public void onClick(View v) 
+						{
+							mainAreaOnClick(new MyEvent("",e.getEnd() , endDayInMillis, false, "", "", -7090966), v);
+						}
+					});
+					hours2.addView(t5);
+				}else {
+					final long startEmptyFinalEvent = e.getEnd();
+					final long lastArea = lastInterval;
+					for (int i = 0; i < (int)(lastInterval/60)-1; i++) 
+					{
+						final long j = startEmptyFinalEvent+i*hour_in_millis;
+						TextView t5 = new TextView(a);
+						t5.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, 60));
+						t5.setBackgroundColor(Color.LTGRAY);
+						t5.setOnClickListener(new View.OnClickListener()
+						{
+							@Override
+							public void onClick(View v) 
+							{
+								mainAreaOnClick(new MyEvent("",j , j+hour_in_millis, false, "", "", -7090966), v);
+							}
+						});
+						hours2.addView(t5);
+					}
+					TextView t5 = new TextView(a);
+					t5.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, lastInterval%60+60));
+					t5.setBackgroundColor(Color.LTGRAY);
+					t5.setOnClickListener(new View.OnClickListener()
+					{
+						@Override
+						public void onClick(View v) 
+						{
+							mainAreaOnClick(new MyEvent("",endDayInMillis-((lastArea%60+60)*min_in_millis), endDayInMillis, false, "", "", -7090966), v);
+						}
+					});
+					hours2.addView(t5);
+				}
 			}
 		}
 	}
+
+	protected static void eventOnClick(MyEvent e, View v) 
+	{
+		v.setBackgroundColor(e.getColor() - 50);
+		initPopUp.setView(v);
+		initPopUp.setEventToUpdate(e);
+		initPopUp.getQuickActionForEvent().show(v);			
+	}
+
+	protected static void mainAreaOnClick(MyEvent myEvent, View v) 
+	{
+		initPopUp.setView(v);
+		v.setBackgroundColor(Color.rgb(135,206,250));
+		// the event is only for init -> no id
+		initPopUp.setEventToUpdate(myEvent);
+		initPopUp.getQuickActionForEmpty().show(v);		
+	}
+	
+	
 
 	private static int convertMillisToMinInDay(long millis) 
 	{
@@ -145,5 +320,6 @@ public class DayTimeLineBuilder
 	private static int millisToMin(long diffInMillis) {
 		return (int)TimeUnit.MILLISECONDS.toMinutes(diffInMillis) ;
 	}
+
 
 }

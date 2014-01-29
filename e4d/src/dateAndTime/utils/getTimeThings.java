@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 public class getTimeThings 
@@ -107,5 +108,61 @@ public class getTimeThings
 		calendar.setTimeInMillis(milliSeconds);
 		return formatter.format(calendar.getTime());
 	}
+
+
+	@SuppressLint("SimpleDateFormat")
+	public static long getMillisToStartOfDay(String day, String mon, String year) 
+	{
+		// this method to know from when to start the query for day list
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
+		formatter.setLenient(false);
+
+		String oldTime = day+"-"+mon+"-"+year+", 00:00";
+		Date oldDate = null;
+		try {
+			oldDate = formatter.parse(oldTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long oldMillis = oldDate.getTime();
+		return oldMillis;
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	public static long getMillisToEndOfDay(String day, String mon, String year)
+	{
+		// this method to know from when to end the query for day list
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
+		formatter.setLenient(false);
+
+		String oldTime = day+"-"+mon+"-"+year+", 23:59";
+		Date oldDate = null;
+		try {
+			oldDate = formatter.parse(oldTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long oldMillis = oldDate.getTime();
+		return oldMillis;
+	}
+
+	public static long getMillisFromDate(dayDate day, String hour, String min) 
+	{
+		// this method to know from when to end the query for day list
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
+		formatter.setLenient(false);
+
+		String oldTime = day.getDay()+"-"+day.getMonth()+"-"+day.getYear()+", "+hour+":"+min;
+		Date oldDate = null;
+		try {
+			oldDate = formatter.parse(oldTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long oldMillis = oldDate.getTime();
+		return oldMillis;
+
+	}
+
 
 }

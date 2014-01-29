@@ -1,11 +1,7 @@
 package calendar.Dal;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -14,35 +10,40 @@ import android.net.Uri;
 import android.provider.CalendarContract.Instances;
 import dateAndTime.utils.MyEvent;
 import dateAndTime.utils.dayDate;
+import dateAndTime.utils.getTimeThings;
 
 
-public class getListOfEvents {
-
+public class getListOfEvents 
+{
 	static Cursor cursor;
 	private static long startDayInMillis;
 	private static long endDayInMillis;
-	
-	public static long getStartDayInMillis() {
+
+	public static long getStartDayInMillis() 
+	{
 		return startDayInMillis;
 	}
 
-	public static void setStartDayInMillis(long startDayInMillis) {
+	public static void setStartDayInMillis(long startDayInMillis) 
+	{
 		getListOfEvents.startDayInMillis = startDayInMillis;
 	}
 
-	public static long getEndDayInMillis() {
+	public static long getEndDayInMillis() 
+	{
 		return endDayInMillis;
 	}
 
-	public static void setEndDayInMillis(long endDayInMillis) {
+	public static void setEndDayInMillis(long endDayInMillis) 
+	{
 		getListOfEvents.endDayInMillis = endDayInMillis;
 	}
 
 	// get only event of one day - this is for faster ui
 	public static LinkedList<MyEvent> readCalendar(Context context, String id, ContentResolver contentResolver, dayDate DayDate) 
 	{
-		startDayInMillis = getListOfEvents.getMillisToStartOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear())+60000;
-		endDayInMillis = getListOfEvents.getMillisToEndOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear());		
+		startDayInMillis = getTimeThings.getMillisToStartOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear())+60000;
+		endDayInMillis = getTimeThings.getMillisToEndOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear());		
 		LinkedList<MyEvent> ret = new LinkedList<MyEvent>();
 		// For each calendar, display all the events from the previous week to the end of next week.        
 		// uri for events
@@ -52,63 +53,53 @@ public class getListOfEvents {
 		ContentUris.appendId(builder, startDayInMillis );
 		ContentUris.appendId(builder, endDayInMillis );
 
-		Cursor eventCursor = contentResolver.query(builder.build(),new String[]  { "title","description", "begin", "end", "allDay", "eventLocation" }, "calendar_id=" + id.split(";")[0], null, "startDay ASC, startMinute ASC");
+		Cursor eventCursor = contentResolver.query(builder.build(),new String[]  { "title","description", "begin", "end", "allDay", "eventLocation" }, "calendar_id="+ id.split(";")[0], null, "startDay ASC, startMinute ASC");
 		if(eventCursor.getCount()>0)
 		{
 			if(eventCursor.moveToFirst())
 			{
 				do
 				{
-					final String title = eventCursor.getString(0);
-					final long begin = eventCursor.getLong(2);
-					final long end = eventCursor.getLong(3);
-					final Boolean allDay = !eventCursor.getString(4).equals("0");
-					final String location = eventCursor.getString(5);
-					final String details = eventCursor.getString(1);
+					String title = eventCursor.getString(0);
+					long begin = eventCursor.getLong(2);
+					long end = eventCursor.getLong(3);
+					Boolean allDay = !eventCursor.getString(4).equals("0");
+					String location = eventCursor.getString(5);
+					String details = eventCursor.getString(1);
+					if (begin < startDayInMillis)
+					{
+						begin = startDayInMillis;
+					}
+					if (end > endDayInMillis) 
+					{
+						end = endDayInMillis;
+					}
 					MyEvent e = new MyEvent(title, begin, end, allDay, location, details, Integer.parseInt(id.split(";")[1]));
-					ret.add(e);
+					if (isEventOk(e, ret) ) 
+						ret.add(e);
 				}
 				while(eventCursor.moveToNext());
 			}
 		}
 		return ret;
 	}
-	
-	@SuppressLint("SimpleDateFormat")
-	public static long getMillisToStartOfDay(String day, String mon, String year) 
-	{
-		// this method to know from when to start the query for day list
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
-		formatter.setLenient(false);
 
-		String oldTime = day+"-"+mon+"-"+year+", 00:00";
-		Date oldDate = null;
-		try {
-			oldDate = formatter.parse(oldTime);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		long oldMillis = oldDate.getTime();
-		return oldMillis;
-	}
-	
-	@SuppressLint("SimpleDateFormat")
-	public static long getMillisToEndOfDay(String day, String mon, String year)
+	private static boolean isEventOk(MyEvent e, LinkedList<MyEvent> ret) 
 	{
-		// this method to know from when to end the query for day list
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
-		formatter.setLenient(false);
-
-		String oldTime = day+"-"+mon+"-"+year+", 23:59";
-		Date oldDate = null;
-		try {
-			oldDate = formatter.parse(oldTime);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		long s1 = e.getBegin();
+		long e1 = e.getEnd();
+		for (MyEvent myEvent : ret) 
+		{
+			long s2 = myEvent.getBegin();
+			long e2 = myEvent.getEnd();
+			if (((s2>s1 && e2<e1))||((s2<s1)&&(e2>s1))||((s2<e1)&&(e2>e1))||((s2<s1)&&(e2>e1))) 
+			{
+				return false;
+			}
 		}
-		long oldMillis = oldDate.getTime();
-		return oldMillis;
+		return true;
 	}
+
 
 
 }

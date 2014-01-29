@@ -13,6 +13,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -29,12 +30,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import builder.views.DialogForInsertEvet;
+import builder.views.initPopUp;
 import builder.views.menuBuilder;
 import calendar.Dal.getListOfCalendarsIds;
 
 import com.example.e4d6.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import dateAndTime.utils.MyEvent;
+import dateAndTime.utils.dayDate;
 import dateAndTime.utils.getTimeThings;
 import frames.fragments.CalendarFrame;
 import frames.fragments.HowToUseFrame;
@@ -52,14 +57,20 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// build the top action bar in color and button
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2CA9DE")));
-
 		// first create
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		//		Dialog d = new DialogForInsertEvet(this).buildDialog(new MyEvent("", getTimeThings.getMillisToEndOfDay("29", "01", "2014"), getTimeThings.getMillisToEndOfDay("29", "01", "2014")+3600000, false, "", "", Color.BLUE), new dayDate("29", "01", "2014"));
+		//		d.show();
+
+		initPopUp.initForEmpty(this);
+		initPopUp.initForEvent(this);
 		dialog = new Dialog(this);
 
 		// id = id_number;id_color
@@ -76,6 +87,9 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 		}
 		// build slide menu
 		menu = menuBuilder.buildMenu(getApplicationContext(), this, R.layout.menu_frame);
+
+
+
 		monthTextview = (TextView) menu.getMenu().findViewById(R.id.mounthView);
 		yearTextview = (TextView) menu.getMenu().findViewById(R.id.yearView);
 		dayTextview = (TextView) menu.getMenu().findViewById(R.id.dayView);
@@ -83,8 +97,8 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 		initOnClick();
 		// current date to the slide menu
 		setLeftUpdateDate();
-
 		inflateToday();
+
 		menu.showMenu();
 
 	}
@@ -100,7 +114,7 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, getListOfCalendarsIds.getCalendarNamess(this));
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s.setAdapter(dataAdapter);					
-		Button dialogButton = (Button) dialog.findViewById(R.id.button1);
+		Button dialogButton = (Button) dialog.findViewById(R.id.ok_event_dialog);
 		// if button is clicked, close the custom dialog
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override

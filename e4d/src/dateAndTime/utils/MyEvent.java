@@ -1,9 +1,8 @@
 package dateAndTime.utils;
 
 
-
-public class MyEvent {
-
+public class MyEvent 
+{
 	private String title;
 	private long begin;
 	private long end;
@@ -11,80 +10,76 @@ public class MyEvent {
 	private String location;
 	private String details;
 	private int color ;
+	private long id;
+
+	public long getId() 
+	{
+		return id;
+	}
+
+	public void setId(long id) 
+	{
+		this.id = id;
+	}
 
 	private int startNormal=0;
 	private int endNormal=0;
-
 
 	public int getStartNormal() {
 		return startNormal;
 	}
 
-
 	public void setStartNormal(int startNormal) {
 		this.startNormal = startNormal;
 	}
-
 
 	public int getEndNormal() {
 		return endNormal;
 	}
 
-
 	public void setEndNormal(int endNormal) {
 		this.endNormal = endNormal;
 	}
-
 
 	public String getTitle() {
 		return title;
 	}
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public long getBegin() {
 		return begin;
 	}
 
-
 	public void setBegin(long begin) {
 		this.begin = begin;
 	}
-
 
 	public long getEnd() {
 		return end;
 	}
 
-
 	public void setEnd(long end) {
 		this.end = end;
 	}
-
 
 	public boolean isAllDay() {
 		return allDay;
 	}
 
-
 	public void setAllDay(boolean allDay) {
 		this.allDay = allDay;
 	}
-
 
 	public String getLocation() {
 		return location;
 	}
 
-
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
 
 	public String getDetails() {
 		if (!myIsEmpty(details)) {
@@ -94,21 +89,17 @@ public class MyEvent {
 		}
 	}
 
-
 	public void setDetails(String details) {
 		this.details = details;
 	}
-
 
 	public int getColor() {
 		return color;
 	}
 
-
 	public void setColor(int color) {
 		this.color = color;
 	}
-
 
 	public MyEvent(String title, long begin2, long end2, boolean allDay,
 			String location, String details, int color) {
@@ -120,7 +111,6 @@ public class MyEvent {
 		this.details = details;
 		this.color = color;
 	}
-
 
 	@Override
 	public String toString() 
@@ -169,7 +159,6 @@ public class MyEvent {
 				return "No Title or Description, Begin: "+getTimeThings.getDate(getBegin(), "dd-MM-yyyy HH:mm")+ ", End: "+ getTimeThings.getDate(getEnd(), "dd-MM-yyyy HH:mm");
 		}
 	}
-
 
 	private boolean myIsEmpty(String s)
 	{
