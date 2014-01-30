@@ -174,6 +174,7 @@ public class initPopUp
 							CalendarFrame calendarFrame = new CalendarFrame();
 							calendarFrame.setArguments(bundle);
 							a.getFragmentManager().beginTransaction().replace(R.id.elementContainer, calendarFrame).commit();
+							Toast.makeText(a.getApplicationContext(), "Event edited", Toast.LENGTH_SHORT).show();
 							dialog.dismiss();
 						}
 
@@ -184,7 +185,6 @@ public class initPopUp
 						public void onDismiss(DialogInterface arg0) 
 						{
 							view.setBackgroundColor(eventToUpdate.getColor());
-							Toast.makeText(a.getApplicationContext(), "Event edited", Toast.LENGTH_SHORT).show();
 						}
 
 					});

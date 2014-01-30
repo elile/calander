@@ -54,8 +54,9 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
 		// build the top action bar in color and button
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2CA9DE")));
@@ -76,7 +77,7 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		String sherdPref = prefs.getString("cal_id", "");
-		if (sherdPref == "") 
+		if (sherdPref.compareTo("")==0 && ids.size() != 0) 
 		{
 			Editor editor = prefs.edit() ;
 			editor.putString("cal_id", ids.get(0)) ;

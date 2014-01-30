@@ -46,6 +46,11 @@ public class getListOfEvents
 		endDayInMillis = getTimeThings.getMillisToEndOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear());
 		// get app events
 		LinkedList<MyEvent> ret = new MyDbDal(context).getEventsByDate(DayDate);
+		
+		if (id.compareTo("")==0 || id==null)
+		{
+			return ret;
+		}
 
 		// For each calendar, display all the events from the previous week to the end of next week.        
 		// uri for events
