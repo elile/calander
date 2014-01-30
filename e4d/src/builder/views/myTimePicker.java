@@ -2,8 +2,6 @@ package builder.views;
 
 import java.util.Calendar;
 
-import com.example.e4d6.R;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -17,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.example.e4d6.R;
+
 public class myTimePicker extends LinearLayout {
 
 	private View myPickerView;
@@ -24,6 +24,38 @@ public class myTimePicker extends LinearLayout {
 	private Button hour_plus;
 	private EditText hour_display;
 	private Button hour_minus;
+
+	public Button getHour_plus() {
+		return hour_plus;
+	}
+
+	public void setHour_plus(Button hour_plus) {
+		this.hour_plus = hour_plus;
+	}
+
+	public Button getHour_minus() {
+		return hour_minus;
+	}
+
+	public void setHour_minus(Button hour_minus) {
+		this.hour_minus = hour_minus;
+	}
+
+	public Button getMin_plus() {
+		return min_plus;
+	}
+
+	public void setMin_plus(Button min_plus) {
+		this.min_plus = min_plus;
+	}
+
+	public Button getMin_minus() {
+		return min_minus;
+	}
+
+	public void setMin_minus(Button min_minus) {
+		this.min_minus = min_minus;
+	}
 
 	public EditText getHour_display() {
 		return hour_display;

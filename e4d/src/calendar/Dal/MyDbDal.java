@@ -2,14 +2,14 @@ package calendar.Dal;
 
 import java.util.LinkedList;
 
-import dateAndTime.utils.MyEvent;
-import dateAndTime.utils.dayDate;
-import dateAndTime.utils.getTimeThings;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import dateAndTime.utils.MyEvent;
+import dateAndTime.utils.dayDate;
+import dateAndTime.utils.getTimeThings;
 
 public class MyDbDal 
 {

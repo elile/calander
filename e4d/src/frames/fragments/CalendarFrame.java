@@ -30,7 +30,6 @@ import android.widget.Toast;
 import builder.views.CustomSpinner;
 import builder.views.DayTimeLineBuilder;
 import builder.views.initPopUp;
-import calendar.Dal.MyDbDal;
 import calendar.Dal.getListOfEvents;
 
 import com.example.e4d.MainActivity;

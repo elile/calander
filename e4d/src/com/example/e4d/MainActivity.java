@@ -30,7 +30,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import builder.views.DialogForInsertEvet;
 import builder.views.initPopUp;
 import builder.views.menuBuilder;
 import calendar.Dal.getListOfCalendarsIds;
@@ -38,8 +37,6 @@ import calendar.Dal.getListOfCalendarsIds;
 import com.example.e4d6.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import dateAndTime.utils.MyEvent;
-import dateAndTime.utils.dayDate;
 import dateAndTime.utils.getTimeThings;
 import frames.fragments.CalendarFrame;
 import frames.fragments.HowToUseFrame;
