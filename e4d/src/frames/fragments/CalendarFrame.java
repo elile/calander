@@ -109,17 +109,6 @@ public class CalendarFrame extends Fragment implements OnClickListener
 	{
 		initPopUp.setDay(dayDateP);
 		final dayDate d = dayDateP;
-		// if all day field pressed make popup to insert event
-		LinearLayout allDayEvent = (LinearLayout) cal.findViewById(R.id.all_day_layout);
-		allDayEvent.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				initPopUp.setView(v);
-				initPopUp.setEventToUpdate(new MyEvent("", getTimeThings.getMillisToStartOfDay(d.getDay(), d.getMonth(), d.getYear()), getTimeThings.getMillisToEndOfDay(d.getDay(), d.getMonth(), d.getYear()), true, "", "", -7090966));
-				v.setBackgroundColor(Color.rgb(135,206,250));
-				initPopUp.getQuickActionForEmpty().show(v);							
-			}
-		});
 
 		LinearLayout hour = (LinearLayout)cal.findViewById(R.id.hours);
 		// the holder of day time line
@@ -165,13 +154,10 @@ public class CalendarFrame extends Fragment implements OnClickListener
 		}
 
 		ContentResolver contentResolver = getActivity().getApplicationContext().getContentResolver();
-		LinkedList<MyEvent> GoogleCalEvents = getListOfEvents.readCalendar(getActivity(), id , contentResolver, dayDateP);
-		MyDbDal myDb = new MyDbDal(getActivity());
-		LinkedList<MyEvent> localEvents = myDb.getEventsByDate(dayDateP);
-		LinkedList<MyEvent> events = concatLists(GoogleCalEvents, localEvents);
-
+		LinkedList<MyEvent> events = getListOfEvents.readCalendar(getActivity(), id , contentResolver, dayDateP);
+		
 		if (events.size()>0) {
-			// dinamic gui add time line
+			// add the time line
 			DayTimeLineBuilder.buildViewDayTimeLine(getActivity(), events, hours2, dayDateP, cal);
 		}else {
 
@@ -195,23 +181,7 @@ public class CalendarFrame extends Fragment implements OnClickListener
 				hours2.addView(t2);
 			}
 		}
-
-
-
 	}
-
-
-
-	private LinkedList<MyEvent> concatLists(LinkedList<MyEvent> l1, LinkedList<MyEvent> l2) 
-	{
-		LinkedList<MyEvent> ret = new LinkedList<MyEvent>();
-		for (MyEvent e : l1) 
-			ret.add(e);
-		for (MyEvent e : l2) 
-			ret.add(e);
-		return ret;
-	}
-
 
 	private void initSpinner(int dayExtra) 
 	{

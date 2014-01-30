@@ -151,7 +151,7 @@ public class getTimeThings
 		// this method to know from when to end the query for day list
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
 		formatter.setLenient(false);
-
+		
 		String oldTime = day.getDay()+"-"+day.getMonth()+"-"+day.getYear()+", "+hour+":"+min;
 		Date oldDate = null;
 		try {

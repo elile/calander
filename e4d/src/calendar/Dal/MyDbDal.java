@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class MyDbDal 
 {
@@ -21,14 +22,14 @@ public class MyDbDal
 		this.c=c;
 		myDbHelper = new MyDbHelper(c);
 	}
-	
+
 	public void deleteEventById(long id)
 	{
 		SQLiteDatabase db = myDbHelper.getWritableDatabase();
 		db.delete(Constants.TABLE_NAME, Constants._ID+"="+id, null);
 		db.close();
 	}
-	
+
 	public void updateEventById(long id, MyEvent e)
 	{
 		SQLiteDatabase db = myDbHelper.getWritableDatabase();
@@ -40,7 +41,8 @@ public class MyDbDal
 		val.put(Constants.COL_LOCATION, e.getLocation());
 		val.put(Constants.COL_DETAILS, e.getDetails());
 		val.put(Constants.COL_COLOR, e.getColor());
-		db.update(Constants.TABLE_NAME, val, "_id "+"="+id, null);		
+		int affected = db.update(Constants.TABLE_NAME, val, Constants._ID+"="+id, null);
+		Log.e("sql", "row update: " + affected);
 		db.close();
 	}
 
@@ -59,8 +61,16 @@ public class MyDbDal
 
 		e.setId(db.insertOrThrow(Constants.TABLE_NAME, null, val));
 		db.close();
+
+		// ----------------------------------------------
+				for (MyEvent ev : getEvents()) {
+					Log.e("sql", "---------------");
+					Log.e("sql", " TITLE: "+ev.getTitle() +" ,BEGIN: "+ ev.getBegin() +" ,END: "+  ev.getEnd() +" ,ID: "+  ev.getId() +" ,IS ALL DAY: "+  ev.isAllDay());
+					Log.e("sql", "----------------");
+				}
+		// ---------------------------------------------
 	}
-	
+
 	public void insertListEvents(LinkedList< MyEvent> l)
 	{
 		for (MyEvent myEvent : l)
@@ -68,7 +78,7 @@ public class MyDbDal
 			insertEvent(myEvent);
 		}
 	}
-	
+
 	public LinkedList<MyEvent> getEventsByDate(dayDate d)
 	{
 		LinkedList<MyEvent> temp = getEvents();
@@ -76,12 +86,26 @@ public class MyDbDal
 		long startDayInMillis = getTimeThings.getMillisToStartOfDay(d.getDay(), d.getMonth(), d.getYear())+60000;
 		long endDayInMillis = getTimeThings.getMillisToEndOfDay(d.getDay(), d.getMonth(), d.getYear());		
 		if (temp.size() > 0)
+		{	
 			for (MyEvent ev : temp) 
-				if (ev.getBegin()>=startDayInMillis && ev.getEnd()<=endDayInMillis) 
+			{
+				if ((ev.getBegin()>=startDayInMillis && ev.getEnd()<=endDayInMillis)||ev.isAllDay()) 
+				{	
 					ret.add(ev);
+
+				}
+			}
+		}
+		// ----------------------------------------------
+				for (MyEvent ev : getEvents()) {
+					Log.e("sql", "---------------");
+					Log.e("sql", " TITLE: "+ev.getTitle() +" ,BEGIN: "+ ev.getBegin() +" ,END: "+  ev.getEnd() +" ,ID: "+  ev.getId() +" ,IS ALL DAY: "+  ev.isAllDay());
+					Log.e("sql", "----------------");
+				}
+		// ---------------------------------------------
 		return ret;		
 	}
-	
+
 	public LinkedList<MyEvent> getEvents()
 	{
 		SQLiteDatabase db = myDbHelper.getWritableDatabase();
@@ -95,7 +119,7 @@ public class MyDbDal
 				Constants.COL_LOCATION,
 				Constants.COL_DETAILS,
 				Constants.COL_COLOR
-				};
+		};
 		Cursor c = db.query(
 				false, 
 				Constants.TABLE_NAME, 
@@ -111,21 +135,21 @@ public class MyDbDal
 		{
 			while(c.moveToNext()){
 				MyEvent event = new MyEvent(
-					c.getString(1), 
-					Long.parseLong(c.getString(2)),	
-					Long.parseLong(c.getString(3)),
-					(c.getString(4).compareTo("1") == 0) ? true : false,	
-					c.getString(5),
-					c.getString(6),	
-					Integer.parseInt(c.getString(7))
-					);
+						c.getString(1), 
+						Long.parseLong(c.getString(2)),	
+						Long.parseLong(c.getString(3)),
+						(c.getString(4).compareTo("1") == 0) ? true : false,	
+								c.getString(5),
+								c.getString(6),	
+								Integer.parseInt(c.getString(7))
+						);
 				event.setId(Integer.parseInt(c.getString(0)));
 				events.add(event);
 			}
 		}
 		db.close();
 		return events;
-		
+
 	}
 
 	public MyEvent getEventById(long id)
@@ -140,7 +164,7 @@ public class MyDbDal
 				Constants.COL_LOCATION,
 				Constants.COL_DETAILS,
 				Constants.COL_COLOR
-				};
+		};
 		Cursor c = db.query(
 				false, 
 				Constants.TABLE_NAME, 
@@ -160,9 +184,9 @@ public class MyDbDal
 					Long.parseLong(c.getString(1)),	
 					Long.parseLong(c.getString(2)),
 					(c.getString(3).compareTo("1") == 0) ? true : false,	
-					c.getString(4),
-					c.getString(5),	
-					Integer.parseInt(c.getString(6))
+							c.getString(4),
+							c.getString(5),	
+							Integer.parseInt(c.getString(6))
 					);
 		}
 		db.close();

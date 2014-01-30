@@ -31,7 +31,22 @@ public class DayTimeLineBuilder
 	public static void buildViewDayTimeLine(Activity ac, LinkedList<MyEvent> events, LinearLayout hours2, dayDate day, View cal) 
 	{
 		a = ac ;
+		final dayDate d = day ;
+		// if all day field pressed make popup to insert event
 		LinearLayout allDayEvent = (LinearLayout) cal.findViewById(R.id.all_day_layout);
+		allDayEvent.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// from where the quick action will pop up
+				initPopUp.setView(v);
+				// reload the event that we see in the dialog
+				initPopUp.setEventToUpdate(new MyEvent("", getTimeThings.getMillisToStartOfDay(d.getDay(), d.getMonth(), d.getYear()), getTimeThings.getMillisToEndOfDay(d.getDay(), d.getMonth(), d.getYear()), true, "", "", -7090966));
+				// change backround for see where you insert event 
+				v.setBackgroundColor(Color.rgb(135,206,250));
+				// this will show the popup
+				initPopUp.getQuickActionForEmpty().show(v);							
+			}
+		});
 
 		// for every min in day - this give me most Accuracy 
 		hours2.setWeightSum(1440);
@@ -301,8 +316,8 @@ public class DayTimeLineBuilder
 		initPopUp.setEventToUpdate(myEvent);
 		initPopUp.getQuickActionForEmpty().show(v);		
 	}
-	
-	
+
+
 
 	private static int convertMillisToMinInDay(long millis) 
 	{

@@ -42,9 +42,11 @@ public class getListOfEvents
 	// get only event of one day - this is for faster ui
 	public static LinkedList<MyEvent> readCalendar(Context context, String id, ContentResolver contentResolver, dayDate DayDate) 
 	{
-		startDayInMillis = getTimeThings.getMillisToStartOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear())+60000;
-		endDayInMillis = getTimeThings.getMillisToEndOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear());		
-		LinkedList<MyEvent> ret = new LinkedList<MyEvent>();
+		startDayInMillis = getTimeThings.getMillisToStartOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear())/*+60000*/;
+		endDayInMillis = getTimeThings.getMillisToEndOfDay(DayDate.getDay(), DayDate.getMonth(), DayDate.getYear());
+		// get app events
+		LinkedList<MyEvent> ret = new MyDbDal(context).getEventsByDate(DayDate);
+
 		// For each calendar, display all the events from the previous week to the end of next week.        
 		// uri for events
 		Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
@@ -66,17 +68,23 @@ public class getListOfEvents
 					Boolean allDay = !eventCursor.getString(4).equals("0");
 					String location = eventCursor.getString(5);
 					String details = eventCursor.getString(1);
-					if (begin < startDayInMillis)
+					if (begin <= startDayInMillis && !allDay)
 					{
 						begin = startDayInMillis;
 					}
-					if (end > endDayInMillis) 
+					if (end > endDayInMillis  && !allDay) 
 					{
 						end = endDayInMillis;
 					}
+//					if (begin == end) {
+//						end = begin + 86340000;
+//					}
 					MyEvent e = new MyEvent(title, begin, end, allDay, location, details, Integer.parseInt(id.split(";")[1]));
-					if (isEventOk(e, ret) ) 
-						ret.add(e);
+					e.setId(-1);
+					if (isEventOk(e, ret)) 
+					{	
+						ret.add(e); 
+					}
 				}
 				while(eventCursor.moveToNext());
 			}
@@ -86,6 +94,9 @@ public class getListOfEvents
 
 	private static boolean isEventOk(MyEvent e, LinkedList<MyEvent> ret) 
 	{
+		if (e.isAllDay()) {
+			return true;
+		}
 		long s1 = e.getBegin();
 		long e1 = e.getEnd();
 		for (MyEvent myEvent : ret) 
@@ -99,7 +110,5 @@ public class getListOfEvents
 		}
 		return true;
 	}
-
-
 
 }

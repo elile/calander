@@ -12,6 +12,8 @@ import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,6 +23,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,13 +67,13 @@ public class initPopUp
 						public void onClick(View v) 
 						{
 							MyEvent eventToInsert = new MyEvent(
-											getTitleFromDialog(dialog),
-											getBeginFromDialog(dialog),
-											getEndFromDialog(dialog), 
-											allDayFromDialog(dialog),
-											locationFromDialog(dialog), 
-											detailsFromDialog(dialog), 
-											eventToUpdate.getColor()	);
+									getTitleFromDialog(dialog),
+									getBeginFromDialog(dialog),
+									getEndFromDialog(dialog), 
+									allDayFromDialog(dialog),
+									locationFromDialog(dialog), 
+									detailsFromDialog(dialog), 
+									eventToUpdate.getColor()	);
 							MyDbDal sql = new MyDbDal(a);
 							sql.insertEvent(eventToInsert);
 							// inflate fragment with now date
@@ -81,48 +86,23 @@ public class initPopUp
 							CalendarFrame calendarFrame = new CalendarFrame();
 							calendarFrame.setArguments(bundle);
 							a.getFragmentManager().beginTransaction().replace(R.id.elementContainer, calendarFrame).commit();
-						
 							dialog.dismiss();
 						}
 
-						private String detailsFromDialog(Dialog dialog) 
-						{
-							EditText details = (EditText)dialog.findViewById(R.id.details);
-							return details.getText().toString();
-						}
-
-						private String locationFromDialog(Dialog dialog)
-						{
-							EditText location = (EditText)dialog.findViewById(R.id.location);
-							return location.getText().toString();
-						}
-
-						private boolean allDayFromDialog(Dialog dialog) 
-						{
-							CheckBox isAllDay = (CheckBox)dialog.findViewById(R.id.all_day_event);				
-							return isAllDay.isChecked();
-						}
-						private long getBeginFromDialog(Dialog dialog)
-						{
-							myTimePicker begin = (myTimePicker)dialog.findViewById(R.id.timePicker_begin);
-							return getTimeThings.getMillisFromDate(day, begin.getHour_display().getText().toString(),begin.getMin_display().getText().toString());
-						}
-						private long getEndFromDialog(Dialog dialog) 
-						{
-							myTimePicker end = (myTimePicker)dialog.findViewById(R.id.timePicker_end);
-							return getTimeThings.getMillisFromDate(day, end.getHour_display().getText().toString(),end.getMin_display().getText().toString());
-						}
-
-
-
-						private String getTitleFromDialog(Dialog dialog)
-						{
-							EditText title = (EditText)dialog.findViewById(R.id.title);
-							return title.getText().toString();
-						}
 					});
+					dialog.setOnDismissListener(new OnDismissListener() 
+					{
+						@Override
+						public void onDismiss(DialogInterface arg0) 
+						{
+							view.setBackgroundColor(Color.LTGRAY);
+						}
+
+					});
+					if (allDayFromDialog(dialog)) {
+						lockEditInAllDayEvent(dialog);
+					}
 					dialog.show();
-					view.setBackgroundColor(Color.LTGRAY);
 					Toast.makeText(a.getApplicationContext(), "Event added", Toast.LENGTH_SHORT).show();
 				} 
 			}
@@ -134,25 +114,21 @@ public class initPopUp
 			public void onDismiss() 
 			{
 				view.setBackgroundColor(Color.LTGRAY);
-				//				Toast.makeText(a.getApplicationContext(), "dismissed", Toast.LENGTH_SHORT).show();
 			}
 		});
-
-
 	}
 
 	public static void initForEvent(Activity ac) 
 	{
 		a=ac;
 		quickActionForEvent = new QuickAction(a);
-		ActionItem acceptItem = new ActionItem(ID_Delete_Event, "Delete Event", a.getResources().getDrawable(android.R.drawable.ic_delete));
-		ActionItem uploadItem = new ActionItem(ID_Show_details, "Show details", a.getResources().getDrawable(android.R.drawable.btn_default));
-		ActionItem EditItem   = new ActionItem(ID_Edit_event_details, "Edit event details", a.getResources().getDrawable(android.R.drawable.btn_default));
-		uploadItem.setSticky(true);
+		ActionItem Delete_Event = new ActionItem(ID_Delete_Event, "Delete Event", a.getResources().getDrawable(android.R.drawable.ic_delete));
+		ActionItem Show_details = new ActionItem(ID_Show_details, "Show details", a.getResources().getDrawable(android.R.drawable.btn_default));
+		ActionItem Edit_event   = new ActionItem(ID_Edit_event_details, "Edit event details", a.getResources().getDrawable(android.R.drawable.ic_menu_edit));
 
-		quickActionForEvent.addActionItem(EditItem);
-		quickActionForEvent.addActionItem(acceptItem);
-		quickActionForEvent.addActionItem(uploadItem);
+		quickActionForEvent.addActionItem(Delete_Event);
+		quickActionForEvent.addActionItem(Show_details);
+		quickActionForEvent.addActionItem(Edit_event);
 
 		//setup the action item click listener
 		quickActionForEvent.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() 
@@ -161,10 +137,87 @@ public class initPopUp
 			public void onItemClick(QuickAction quickAction, int pos, int actionId) 
 			{
 				ActionItem actionItem = quickAction.getActionItem(pos);
-				if (actionId == ID_ADD) {
-					Toast.makeText(a.getApplicationContext(), "Add item selected", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(a.getApplicationContext(), actionItem.getTitle() + " selected", Toast.LENGTH_SHORT).show();
+				if (actionId == ID_Edit_event_details)
+				{
+					if (eventToUpdate.getId() == -1) 
+					{
+						// the event is from the android calander
+						view.setBackgroundColor(eventToUpdate.getColor());
+						Toast.makeText(a, "Currently you cannot edit external events", Toast.LENGTH_LONG).show();
+						return;
+					}
+					final Dialog dialog = new DialogForInsertEvet(a).buildDialog(eventToUpdate, day);
+					Button dialogButton = (Button) dialog.findViewById(R.id.ok_event_dialog);
+					dialogButton.setOnClickListener(new OnClickListener()
+					{
+						@Override
+						public void onClick(View v) 
+						{
+							MyEvent eventToInsert = new MyEvent(
+									getTitleFromDialog(dialog),
+									getBeginFromDialog(dialog),
+									getEndFromDialog(dialog), 
+									allDayFromDialog(dialog),
+									locationFromDialog(dialog), 
+									detailsFromDialog(dialog), 
+									eventToUpdate.getColor()	);
+							MyDbDal sql = new MyDbDal(a);
+
+							//Log.e("sql", "id of edit=" + eventToUpdate)
+
+							sql.updateEventById(eventToUpdate.getId(), eventToInsert);
+							// inflate fragment with date
+							Bundle bundle = new Bundle();
+							bundle.putString("month", day.getMonth());
+							bundle.putString("year", day.getYear());
+							bundle.putString("day", Integer.parseInt(day.getDay())+"");
+
+							// set Fragmentclass Arguments
+							CalendarFrame calendarFrame = new CalendarFrame();
+							calendarFrame.setArguments(bundle);
+							a.getFragmentManager().beginTransaction().replace(R.id.elementContainer, calendarFrame).commit();
+							dialog.dismiss();
+						}
+
+					});
+					dialog.setOnDismissListener(new OnDismissListener() 
+					{
+						@Override
+						public void onDismiss(DialogInterface arg0) 
+						{
+							view.setBackgroundColor(eventToUpdate.getColor());
+							Toast.makeText(a.getApplicationContext(), "Event edited", Toast.LENGTH_SHORT).show();
+						}
+
+					});
+					dialog.show();
+				}
+				else if (actionId == ID_Show_details)
+				{
+					final Dialog dialog = new DialogForInsertEvet(a).buildDialog(eventToUpdate, day);
+					lockAll(dialog);
+					Button dialogButton = (Button) dialog.findViewById(R.id.ok_event_dialog);
+					dialogButton.setOnClickListener(new OnClickListener()
+					{
+						@Override
+						public void onClick(View v) 
+						{
+							dialog.dismiss();
+						}
+
+					});
+					dialog.setOnDismissListener(new OnDismissListener() 
+					{
+						@Override
+						public void onDismiss(DialogInterface arg0) 
+						{
+							view.setBackgroundColor(eventToUpdate.getColor());
+						}
+
+					});
+					dialog.show();
+				}else {
+					// delete
 				}
 			}
 		});
@@ -174,11 +227,13 @@ public class initPopUp
 			@Override
 			public void onDismiss() 
 			{
-				view.setBackgroundColor(((ColorDrawable)view.getBackground()).getColor()+50);
+				view.setBackgroundColor(eventToUpdate.getColor());
 				Toast.makeText(a.getApplicationContext(), "Ups..dismissed", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
+
+
 
 	public static dayDate getDay() {
 		return day;
@@ -214,6 +269,67 @@ public class initPopUp
 
 	public static void setView(View view) {
 		initPopUp.view = view;
+	}
+
+
+	private static String detailsFromDialog(Dialog dialog) 
+	{
+		EditText details = (EditText)dialog.findViewById(R.id.details);
+		return details.getText().toString();
+	}
+	private static String locationFromDialog(Dialog dialog)
+	{
+		EditText location = (EditText)dialog.findViewById(R.id.location);
+		return location.getText().toString();
+	}
+	private static boolean allDayFromDialog(Dialog dialog) 
+	{
+		CheckBox isAllDay = (CheckBox)dialog.findViewById(R.id.all_day_event);				
+		return isAllDay.isChecked();
+	}
+	private static long getBeginFromDialog(Dialog dialog)
+	{
+		myTimePicker begin = (myTimePicker)dialog.findViewById(R.id.timePicker_begin);
+		String h = begin.getHour_display().getText().toString();
+		String m = begin.getMin_display().getText().toString();
+		if (h.equals("0") && m.equals("0"))
+		{
+			m="01";
+		}
+		long ret = getTimeThings.getMillisFromDate(day, h, m);
+//		if (begin.getHour_display().getText().toString().compareTo("0")==0 && begin.getMin_display().getText().toString().compareTo("0")==0) {
+//			ret+=60000;
+//		}
+		return ret;
+	}
+	private static long getEndFromDialog(Dialog dialog) 
+	{
+		myTimePicker end = (myTimePicker)dialog.findViewById(R.id.timePicker_end);
+		return getTimeThings.getMillisFromDate(day, end.getHour_display().getText().toString(),end.getMin_display().getText().toString());
+	}
+	private static String getTitleFromDialog(Dialog dialog)
+	{
+		EditText title = (EditText)dialog.findViewById(R.id.title);
+		return title.getText().toString();
+	}
+
+	protected static void lockAll(Dialog dialog) 
+	{
+		lockEditInAllDayEvent(dialog);
+		EditText title = (EditText)dialog.findViewById(R.id.title);
+		EditText details = (EditText)dialog.findViewById(R.id.details);
+		EditText location = (EditText)dialog.findViewById(R.id.location);
+		title.setEnabled(false);
+		details.setEnabled(false);
+		location.setEnabled(false);
+	}
+
+	public static void lockEditInAllDayEvent(final Dialog dialog) {
+		((CheckBox)dialog.findViewById(R.id.all_day_event)).setEnabled(false);
+		((myTimePicker)dialog.findViewById(R.id.timePicker_begin)).getHour_display().setEnabled(false);
+		((myTimePicker)dialog.findViewById(R.id.timePicker_begin)).getMin_display().setEnabled(false);
+		((myTimePicker)dialog.findViewById(R.id.timePicker_end)).getHour_display().setEnabled(false);
+		((myTimePicker)dialog.findViewById(R.id.timePicker_end)).getMin_display().setEnabled(false);
 	}
 
 
