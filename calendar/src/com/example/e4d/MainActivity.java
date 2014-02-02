@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import builder.views.initPopUp;
 import builder.views.menuBuilder;
+
 import calendar.Dal.getListOfCalendarsIds;
 
 import com.example.e4d6.R;
@@ -198,13 +199,14 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+	// if we want the coustem action bar
+		@Override
+		public boolean onCreateOptionsMenu(Menu menu) 
+		{
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.main, menu);
+			return super.onCreateOptionsMenu(menu);
+		}
 
 	// to menu button
 	@Override
