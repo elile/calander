@@ -22,7 +22,8 @@ public class CustomSpinner extends Spinner
 		super(context, attrs, defStyle); 
 	}
 
-	@Override public void setSelection(int position, boolean animate)
+	@Override 
+	public void setSelection(int position, boolean animate)
 	{
 		boolean sameSelected = position == getSelectedItemPosition();
 		super.setSelection(position, animate);
@@ -33,7 +34,8 @@ public class CustomSpinner extends Spinner
 		}
 	}
 
-	@Override public void  setSelection(int position)
+	@Override 
+	public void  setSelection(int position)
 	{
 		boolean sameSelected = position == getSelectedItemPosition();
 		super.setSelection(position);

@@ -32,7 +32,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import builder.views.initPopUp;
 import builder.views.menuBuilder;
-
 import calendar.Dal.getListOfCalendarsIds;
 
 import com.example.e4d6.R;
@@ -65,29 +64,27 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//		Dialog d = new DialogForInsertEvet(this).buildDialog(new MyEvent("", getTimeThings.getMillisToEndOfDay("29", "01", "2014"), getTimeThings.getMillisToEndOfDay("29", "01", "2014")+3600000, false, "", "", Color.BLUE), new dayDate("29", "01", "2014"));
-		//		d.show();
-
 		initPopUp.initForEmpty(this);
 		initPopUp.initForEvent(this);
 		dialog = new Dialog(this);
 
 		// id = id_number;id_color
 		LinkedList<String> ids = getListOfCalendarsIds.getCalendarIds(this);
-		initDialog(ids);
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		String sherdPref = prefs.getString("cal_id", "");
-		if (sherdPref.compareTo("")==0 && ids.size() != 0) 
+		
+		if (ids.size() > 0) 
 		{
-			Editor editor = prefs.edit() ;
-			editor.putString("cal_id", ids.get(0)) ;
-			editor.commit() ;
+			initDialog(ids);
+			SharedPreferences prefs = PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext());
+			String sherdPref = prefs.getString("cal_id", "");
+			if (sherdPref.compareTo("") == 0 && ids.size() != 0) {
+				Editor editor = prefs.edit();
+				editor.putString("cal_id", ids.get(0));
+				editor.commit();
+			}
 		}
 		// build slide menu
 		menu = menuBuilder.buildMenu(getApplicationContext(), this, R.layout.menu_frame);
-
-
 
 		monthTextview = (TextView) menu.getMenu().findViewById(R.id.mounthView);
 		yearTextview = (TextView) menu.getMenu().findViewById(R.id.yearView);
@@ -200,13 +197,13 @@ public class MainActivity extends Activity implements OnClickListener,changeDayC
 	}
 
 	// if we want the coustem action bar
-		@Override
-		public boolean onCreateOptionsMenu(Menu menu) 
-		{
-			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.main, menu);
-			return super.onCreateOptionsMenu(menu);
-		}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	// to menu button
 	@Override

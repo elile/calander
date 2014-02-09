@@ -159,7 +159,7 @@ public class DayTimeLineBuilder
 			hours2.addView(t2);
 		}else {
 			TextView t2 = new TextView(a);
-			t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, events_new.getFirst().getStartNormal()));
+			t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0, events_new.getFirst().getStartNormal()));
 			t2.setBackgroundColor(Color.LTGRAY);
 			t2.setOnClickListener(new View.OnClickListener()
 			{

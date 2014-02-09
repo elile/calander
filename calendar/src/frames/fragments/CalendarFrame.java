@@ -144,7 +144,9 @@ public class CalendarFrame extends Fragment implements OnClickListener
 				String nowDday = getTimeThings.getDayNumber(Calendar.getInstance().getTimeInMillis()); 
 				String nowDmon = getTimeThings.getMonNumber(Calendar.getInstance().getTimeInMillis()); 
 				String nowDyear = getTimeThings.getYearNumber(Calendar.getInstance().getTimeInMillis()); 
-				if ( dayDateP.getDay().equals(nowDday) 	&& dayDateP.getMonth().equals(nowDmon) 	&& dayDateP.getYear().equals(nowDyear)) 
+				if ( Integer.parseInt( dayDateP.getDay()) == Integer.parseInt(nowDday)	
+						&& Integer.parseInt( dayDateP.getMonth()) == Integer.parseInt( nowDmon) 	
+						&& Integer.parseInt( dayDateP.getYear())==Integer.parseInt(nowDyear)) 
 				{
 					t.setBackgroundColor(Color.RED);
 					t.setTextColor(Color.WHITE);
@@ -163,7 +165,7 @@ public class CalendarFrame extends Fragment implements OnClickListener
 
 			for (int i = 0; i < 24; i++) 
 			{
-				final long j = getTimeThings.getMillisToStartOfDay(d.getDay(), d.getMonth(), d.getYear())+i*hour_in_millis;
+				final long j = getTimeThings.getMillisToStartOfDay(d.getDay(), d.getMonth(), d.getYear()) + i*hour_in_millis;
 				TextView t2 = new TextView(getActivity());
 				t2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,0, 60));
 				t2.setBackgroundColor(Color.LTGRAY);

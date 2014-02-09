@@ -33,6 +33,7 @@ public class initPopUp
 
 	private static QuickAction quickActionForEmpty;
 	private static QuickAction quickActionForEvent;
+	
 	private static dayDate day;
 	private static MyEvent eventToUpdate;
 	private static View view;
